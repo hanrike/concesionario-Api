@@ -3,12 +3,15 @@
 
 //para poder hacer el import de siempre se hace en elpackage.json "type":"module"
 import Express from 'express';
-import { MongoClient,ObjectId } from 'mongodb';
 import Cors from 'cors';
+import dotenv from 'dotenv';
+import { MongoClient,ObjectId } from 'mongodb';
+
+dotenv.config({path:'./.env'});
 
 
-const stringConexion=
-'mongodb+srv://jarolandres:12345@proyectoconcesionario.px3ob.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+
+const stringConexion=process.env.DATABASE_URL;
 
 const client=new MongoClient(stringConexion,{
     useNewUrlParser:true,
@@ -115,8 +118,8 @@ const main=()=>{
         baseDeDatos=db.db('concesionario');
         console.log('baseDeDatos exitosa');
     
-    return app.listen(5000,()=>{
-        console.log('escuchando el puerto 5000');
+    return app.listen(process.env.PORT,()=>{
+        console.log(`escuchando puerto ${process.env.PORT}`);
     });
     });
 };
