@@ -5,20 +5,13 @@
 import Express from 'express';
 import Cors from 'cors';
 import dotenv from 'dotenv';
+import { conectarBD,getDB } from './db/db.js';
 import { MongoClient,ObjectId } from 'mongodb';
+
 
 dotenv.config({path:'./.env'});
 
 
-
-const stringConexion=process.env.DATABASE_URL;
-
-const client=new MongoClient(stringConexion,{
-    useNewUrlParser:true,
-    useUnifiedTopology:true,
-});
-
-let baseDeDatos;
 
 const app=Express();
 app.use(Express.json());
@@ -26,9 +19,10 @@ app.use(Cors());
 
 app.get('/vehiculos',(req,res)=>{
     console.log('alguien hizo get en la ruta/vehiculos');
+    const baseDeDatos=getDB();
     baseDeDatos
     .collection('vehiculo')
-    .find({})
+    .find()
     .limit(50)
     .toArray((err,result)=>{
         if (err){
@@ -36,11 +30,11 @@ app.get('/vehiculos',(req,res)=>{
         }else{
             res.json(result);
         }
-    })
+    });
 });
 
 app.post('/vehiculos/nuevo',(req,res)=>{
-    
+    console.log(req);
     const datosVehiculo=req.body;
     console.log("llaves:",Object.keys(datosVehiculo));
     try{
@@ -49,6 +43,7 @@ app.post('/vehiculos/nuevo',(req,res)=>{
         Object.keys(datosVehiculo).includes('brand')&&
         Object.keys(datosVehiculo).includes('model')
     ){
+        const baseDeDatos=getDB();
         //implementar codigo para crear vehiculo en la base de datos
         baseDeDatos.collection('vehiculo').insertOne(datosVehiculo,(err,result)=>{
             if (err){
@@ -56,7 +51,7 @@ app.post('/vehiculos/nuevo',(req,res)=>{
                 res.sendStatus(500);
             }else{
                 console.log(result)
-                res.sendStatus(500);
+                res.sendStatus(200);
             }
         });
         
@@ -77,6 +72,7 @@ app.patch('/vehiculos/editar',(req,res)=>{
     const operacion={
         $set:edicion,
     };
+    const baseDeDatos=getDB();
     baseDeDatos
     .collection('vehiculo')
     .findOneAndUpdate(
@@ -97,6 +93,7 @@ app.patch('/vehiculos/editar',(req,res)=>{
 
 app.delete('/vehiculos/eliminar',(req,res)=>{
     const filtroVehiculo={_id:new ObjectId(req.body.id)};
+    const baseDeDatos=getDB();
     baseDeDatos.collection('vehiculo').deleteOne(filtroVehiculo,(err,result)=>{
         if(err){
             console.error(err);
@@ -109,22 +106,12 @@ app.delete('/vehiculos/eliminar',(req,res)=>{
 });
 
 const main=()=>{
-
-    client.connect((err,db)=>{
-        if (err){
-            console.error('Error conectando la base de datos');
-            return 'error';
-        }
-        baseDeDatos=db.db('concesionario');
-        console.log('baseDeDatos exitosa');
-    
-    return app.listen(process.env.PORT,()=>{
-        console.log(`escuchando puerto ${process.env.PORT}`);
-    });
-    });
+   return app.listen(process.env.PORT,()=>{
+    console.log(`escuchando puerto ${process.env.PORT}`);
+});
 };
 
-main();
+conectarBD(main);
 
 
     

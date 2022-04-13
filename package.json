@@ -2,6 +2,7 @@
   "name": "API-CONCESIONARIO",
   "version": "1.0.0",
   "main": "index.js",
+  "repository": "https://github.com/hanrike/concesionario-Api.git",
   "author": "jarol <jaancastano@utp.edu.co>",
   "license": "MIT",
   "type": "module",
@@ -10,7 +11,7 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^16.0.0",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mongodb": "^4.1.3"
   },
