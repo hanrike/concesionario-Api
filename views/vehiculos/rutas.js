@@ -1,12 +1,13 @@
 import Express from 'express';
-import { queryAllVehicles,crearVehiculo, editarVehiculo, eliminarVehiculo } from '../../controllers/vehiculos/controller.js';
+import { queryAllVehicles,crearVehiculo, editarVehiculo, eliminarVehiculo, consultarVehiculo } from '../../controllers/vehiculos/controller.js';
 
 
 const rutasVehiculo=Express.Router();
 
 const genericCallback=(res)=>(err,result)=>{
             if (err){
-                res.status(500).send('Error consultando los vehiculos');
+                console.log('error',err);
+                res.status(500).json({error:err});
             }else{
                 res.json(result);
             }
@@ -21,6 +22,11 @@ rutasVehiculo.route('/vehiculos').get,((req,res)=>{
 
 rutasVehiculo.route('/vehiculos').post((req,res)=>{
     crearVehiculo(req.body,genericCallback(res));
+});
+
+rutasVehiculo.route('/vehiculos').get,((req,res)=>{
+    console.log('alguien hizo get en la ruta/vehiculos');
+    consultarVehiculo(req.params.id,genericCallback(res));
 });
 
 rutasVehiculo.route('/vehiculos/:id').patch((req,res)=>{

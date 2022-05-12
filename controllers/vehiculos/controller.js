@@ -27,6 +27,14 @@ const crearVehiculo=async(datosVehiculo, callback)=>{
  
     };
 
+const consultarVehiculo=async(id,callback)=>{
+    const baseDeDatos=getDB();
+    await baseDeDatos
+    .collection('vehiculo')
+    .findOne({_id:new ObjectId(id)},callback)
+    
+}
+
 const editarVehiculo=async(id,edicion,callback)=>{
     const filtroVehiculo={_id:new ObjectId(id)};
     const operacion={
@@ -49,4 +57,4 @@ const eliminarVehiculo=async(id,callback)=>{
 };
 
 
-export {queryAllVehicles,crearVehiculo,editarVehiculo,eliminarVehiculo};
+export {queryAllVehicles,crearVehiculo,editarVehiculo,eliminarVehiculo,consultarVehiculo};
