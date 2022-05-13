@@ -12,6 +12,7 @@ import jwks from 'jwks-rsa';
 import rutasVehiculo from './views/vehiculos/rutas.js';
 import rutasUsuario from './views/usuarios/rutas.js';
 import rutasVenta from './views/ventas/rutas.js';
+import autorizacionEstadoUsuario from './middleware/autorizacionEstadoUsuario.js';
 
 
 
@@ -37,6 +38,8 @@ app.use(Cors());
 
 //4 y 5: enviarle el token a auth0 para que devuelva si es valido o no 
 app.use(jwtCheck); 
+
+app.use(autorizacionEstadoUsuario);
 
 
 app.use(rutasVehiculo);
