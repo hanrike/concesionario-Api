@@ -18,11 +18,15 @@ const autorizacionEstadoUsuario= async(req,res,next)=>{
         //paso 4: si el usuario es rechazado, devolver un error de autenticacion.
         return res.sendStatus(401);
         }else{
+            console.log('habilitado');
         //paso 5: si el usuario esta pendiente o habilitado,ejecutar next()
-        console.log('habilitado');
+            next();
         }
-       }
-    });
+       
+    }else{
+        next();
+    }
+});
     
     console.log('hola mundo, soy un middleware');
     next();
