@@ -7,7 +7,7 @@ const queryAllUsers=async (callback)=>{
     const baseDeDatos=getDB();
     await baseDeDatos
     .collection('Usuario')
-    .find()
+    .find({})
     .limit(50)
     .toArray(callback);
 };

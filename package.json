@@ -7,6 +7,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "test": "jest",
     "start": "node server.js"
   },
   "engines": {
@@ -25,6 +26,7 @@
     "serverless-http": "^3.0.1"
   },
   "devDependencies": {
+    "jest": "^28.1.0",
     "nodemon": "^2.0.13"
   }
 }
