@@ -50,15 +50,13 @@ app.use(rutasUsuario);
 app.use(rutasVenta);
 
 const main=()=>{
-   return app.listen(port,()=>{
+   return app.listen(process.env.PORT,()=>{
     console.log(`escuchando puerto ${port}`);
 });
 };
 
-const index ={
-  handler:ServerlessHttp(conectarBD(main)),
-};
-export default index;
+
+conectarBD(main);
 
 
     

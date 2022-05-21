@@ -13,10 +13,19 @@
 // test('probar que 1 + 2 es mayor a 0',()=>{
 //     expect(suma(1,2)).toBeGreaterThan(0);
 // });
+
 import {queryAllUsers} from './controllers/usuarios/controller.js';
 import {conectarBD} from './db/db.js';
 
-test("query a ususarios devuelve mas de un usuario",()=>{
-    queryAllUsers();
-    conectarBD();
-})
+test("query a usuarios devuelve mas de un usuario",(done)=>{
+    const callback=(err,res)=>{
+        try{
+            expect(res.lenght).toBeGreaterThan(0);
+            done();
+        } catch (error){
+            done(error);
+        }
+    };
+    const query=()=>queryAllUsers(callback);
+    conectarBD(query);
+});
