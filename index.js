@@ -2,6 +2,7 @@
 //const express=require('express');
 
 //para poder hacer el import de siempre se hace en elpackage.json "type":"module"
+import ServerlessHttp from 'serverless-http';
 import Express from 'express';
 import Cors from 'cors';
 import dotenv from 'dotenv';
@@ -54,7 +55,10 @@ const main=()=>{
 });
 };
 
-conectarBD(main);
+const index ={
+  handler:ServerlessHttp(conectarBD(main)),
+};
+export default index;
 
 
     
